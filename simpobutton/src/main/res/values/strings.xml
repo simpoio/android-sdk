@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SimpoButton</string>
+    <string name="close_button">Close button</string>
 </resources>

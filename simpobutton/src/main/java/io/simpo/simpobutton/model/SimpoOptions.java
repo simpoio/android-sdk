@@ -5,17 +5,35 @@ public class SimpoOptions {
     private String uuid;
     private boolean show;
     private String position;
-    private int dimension;
+    private int width;
+    private int height;
 
     public SimpoOptions() {
     }
 
-    public SimpoOptions(SimpoUser simpoUser, String uuid, boolean show, String position, int dimension) {
+    public SimpoOptions(SimpoUser simpoUser, String uuid, boolean show, String position, int width, int height) {
         this.simpoUser = simpoUser;
         this.uuid = uuid;
         this.show = show;
         this.position = position;
-        this.dimension = dimension;
+        this.width = width;
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     public SimpoUser getSimpoUser() {
@@ -49,13 +67,4 @@ public class SimpoOptions {
     public void setPosition(String position) {
         this.position = position;
     }
-
-    public int getDimension() {
-        return dimension;
-    }
-
-    public void setDimension(int dimension) {
-        this.dimension = dimension;
-    }
-
 }
