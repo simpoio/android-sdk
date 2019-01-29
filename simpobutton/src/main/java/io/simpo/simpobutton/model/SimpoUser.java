@@ -1,4 +1,5 @@
 package io.simpo.simpobutton.model;
 
-class SimpoUser {
+public class SimpoUser {
+
 }

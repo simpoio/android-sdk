@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.WebView;
 
+import java.util.Objects;
+
 import io.simpo.simpobutton.R;
 
 public class SimpoDialog extends DialogFragment implements View.OnClickListener {
@@ -20,7 +22,7 @@ public class SimpoDialog extends DialogFragment implements View.OnClickListener 
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(dialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
         return dialog;
     }
 
