@@ -16,20 +16,27 @@ public class SimpoWebViewClient extends WebViewClient {
 
     private static final String TAG = "Simpo Widget";
     private Context context;
+    private String interfaceUrl;
 
-    public SimpoWebViewClient(Context context) {
+    public SimpoWebViewClient(Context context, String interfaceUrl) {
         this.context = context;
+        this.interfaceUrl = interfaceUrl;
     }
 
     @Override
-    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        if (url.equals("simpo://widget.click")) {
+            new SimpoDialog();
+            SimpoDialog.newInstance(interfaceUrl).showNow(Objects.requireNonNull(getFragmentManager(context)), null);
+        }
         return true;
     }
 
     @Override
     public void onLoadResource(WebView view, String url) {
         if (url.equals("simpo://widget.click")) {
-            new SimpoDialog().showNow(Objects.requireNonNull(getFragmentManager(context)), null);
+            new SimpoDialog();
+            SimpoDialog.newInstance(interfaceUrl).showNow(Objects.requireNonNull(getFragmentManager(context)), null);
         }
     }
 

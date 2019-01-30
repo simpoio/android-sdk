@@ -1,6 +1,9 @@
 package io.simpo.simpobutton.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import java.util.Objects;
 
@@ -17,22 +21,39 @@ import io.simpo.simpobutton.R;
 
 public class SimpoDialog extends DialogFragment implements View.OnClickListener {
 
+    public static SimpoDialog newInstance(String url) {
+        SimpoDialog simpoDialog = new SimpoDialog();
+
+        Bundle args = new Bundle();
+        args.putString("url", url);
+        simpoDialog.setArguments(args);
+
+        return simpoDialog;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
 
         Objects.requireNonNull(dialog.getWindow()).requestFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         return dialog;
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.simpo_fragment, container);
         view.findViewById(R.id.close).setOnClickListener(this);
         WebView webView = view.findViewById(R.id.dialogWebView);
-        webView.loadUrl("https://google.com/");
+        webView.setWebViewClient(new WebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.loadUrl("https://staging-app.simpo.io/v1/4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4/mobile/app?data={\"show\":true,\"dimension\":\"55x55\",\"position\":\"bottom-right\",\"user\":{\"email\":\"abc@aa.com\"}}");
+
         return view;
     }
 

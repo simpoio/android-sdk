@@ -23,15 +23,20 @@ import io.simpo.simpobutton.model.SimpoOptions;
 import io.simpo.simpobutton.util.SimpoWebViewClient;
 
 public class Simpo {
-    private static final String sButtonContentUrl = "https://staging-app.simpo.io/v1/%s/mobile/widget";
+    private static final String widgetStagingUrl = "https://staging-app.simpo.io/v1/%s/mobile/widget";
+    private static final String interfaceStagingUrl = "https://staging-app.simpo.io/v1/%s/mobile/app?data=%s";
+    private static final String widgetUrl = "https://app.simpo.io/v1/%s/mobile/widget";
+    private static final String interfaceUrl = "https://app.simpo.io/v1/%s/mobile/app?data=%s";
     @SuppressLint("StaticFieldLeak")
     private static WebView sWebView;
     private static SimpoOptions sSimpoOptions;
+    private static String ucid;
 
     public static void init(Context context, String ucid, SimpoOptions options) {
+        Simpo.ucid = ucid;
         WebView webView = new WebView(context);
         sSimpoOptions = options;
-        webView.loadUrl(String.format(sButtonContentUrl, ucid));
+        webView.loadUrl(String.format(widgetStagingUrl, ucid));
         webView.setVisibility(View.VISIBLE);
         webView.setBackgroundColor(Color.TRANSPARENT);
         sWebView = webView;
@@ -43,8 +48,7 @@ public class Simpo {
         child.setClickable(false);
         child.setLayoutParams(lp);
         RelativeLayout.LayoutParams layoutParams = getLayoutParamsForButton();
-
-        sWebView.setWebViewClient(new SimpoWebViewClient(context));
+        sWebView.setWebViewClient(new SimpoWebViewClient(context, String.format(interfaceStagingUrl, ucid, ucid)));
         child.addView(sWebView, layoutParams);
         viewGroup.addView(child);
     }
