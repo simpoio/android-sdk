@@ -64,7 +64,7 @@ public class Simpo {
 
         return new HttpUrl.Builder()
                 .scheme("https")
-                .host("app.simpo.io")
+                .host("staging-app.simpo.io")
                 .addPathSegments("v1/4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4/mobile")
                 .addPathSegment("app")
                 .addQueryParameter("data", gson.toJson(INSTANCE.simpoOptions))
