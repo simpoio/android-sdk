@@ -17,7 +17,7 @@ import java.util.Objects;
 
 import io.simpo.simpobutton.fragment.SimpoDialog;
 import io.simpo.simpobutton.model.SimpoOptions;
-import io.simpo.simpobutton.util.SimpoWebViewClient;
+import io.simpo.simpobutton.util.SimpoWidgetWebViewClient;
 
 public class Simpo {
     private static final String widgetStagingUrl = "https://staging-app.simpo.io/v1/%s/mobile/widget";
@@ -50,7 +50,7 @@ public class Simpo {
         child.setLayoutParams(lp);
         RelativeLayout.LayoutParams layoutParams = getLayoutParamsForButton();
         String url = generateInterfaceURL();
-        webView.setWebViewClient(new SimpoWebViewClient(activity, url));
+        webView.setWebViewClient(new SimpoWidgetWebViewClient(activity, url));
         child.addView(webView, layoutParams);
         viewGroup.addView(child);
     }

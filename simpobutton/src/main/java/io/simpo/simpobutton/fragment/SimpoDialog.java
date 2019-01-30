@@ -2,6 +2,8 @@ package io.simpo.simpobutton.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,6 +21,61 @@ import io.simpo.simpobutton.R;
 public class SimpoDialog extends DialogFragment {
 
     public static final String URL_ARG = "url";
+
+    private boolean isRedirected;
+    private WebViewClient webViewClient = new WebViewClient() {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url.equals("simpo://interface.close")) {
+                dismiss();
+            }
+            view.loadUrl(url);
+            isRedirected = true;
+            return false;
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            super.onReceivedError(view, errorCode, description, failingUrl);
+
+            view.setVisibility(View.GONE);
+        }
+
+        ProgressDialog progressDialog;
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            isRedirected = false;
+        }
+
+        public void onLoadResource(WebView view, String url) {
+            if (!isRedirected) {
+                if (progressDialog == null) {
+                    progressDialog = new ProgressDialog(getActivity());
+                    progressDialog.setMessage("Loading...");
+                    progressDialog.show();
+                }
+            }
+
+        }
+
+        public void onPageFinished(WebView view, String url) {
+            try {
+                isRedirected = true;
+
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                    progressDialog = null;
+                }
+
+
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+
+    };;
 
     public static SimpoDialog newInstance(String url) {
         SimpoDialog simpoDialog = new SimpoDialog();
@@ -47,24 +104,7 @@ public class SimpoDialog extends DialogFragment {
         webView.getSettings().setDomStorageEnabled(true);
         webView.setBackgroundColor(Color.TRANSPARENT);
         webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.equals("simpo://interface.close")) {
-                    dismiss();
-                }
-                return true;
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                super.onReceivedError(view, errorCode, description, failingUrl);
-
-                view.setVisibility(View.GONE);
-            }
-
-
-        });
+        webView.setWebViewClient(webViewClient);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setAppCacheEnabled(false);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);

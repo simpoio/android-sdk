@@ -8,13 +8,13 @@ public class SimpoOptions {
     private int width;
     private int height;
 
-    public SimpoOptions(SimpoUser user, String uuid, boolean show, SimpoWidgetPosition position, int width, int height) {
+    public SimpoOptions(SimpoUser user, String uuid, boolean show, SimpoWidgetPosition position, int widgetWidth, int widgetHeight) {
         this.uuid = uuid;
         this.user = user;
         this.show = show;
         this.position = position;
-        this.width = width;
-        this.height = height;
+        this.width = widgetWidth;
+        this.height = widgetHeight;
     }
 
     public int getWidth() {
