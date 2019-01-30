@@ -11,26 +11,20 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import java.util.Objects;
-
 import io.simpo.simpobutton.R;
-import okhttp3.HttpUrl;
-
 public class SimpoDialog extends DialogFragment {
 
-    public static final String URL = "url";
+    public static final String URL_ARG = "url";
 
-    public static SimpoDialog newInstance(HttpUrl url) {
+    public static SimpoDialog newInstance(String url) {
         SimpoDialog simpoDialog = new SimpoDialog();
 
         Bundle args = new Bundle();
-        args.putString(URL, String.valueOf(url));
+        args.putString(URL_ARG, url);
         simpoDialog.setArguments(args);
 
         return simpoDialog;
@@ -43,21 +37,16 @@ public class SimpoDialog extends DialogFragment {
 
     }
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-
-        return dialog;
-    }
-
     @SuppressLint("SetJavaScriptEnabled")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         View view = inflater.inflate(R.layout.simpo_fragment, container);
         WebView webView = view.findViewById(R.id.dialogWebView);
         webView.getSettings().setDomStorageEnabled(true);
+        webView.setBackgroundColor(Color.TRANSPARENT);
+        webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -66,12 +55,21 @@ public class SimpoDialog extends DialogFragment {
                 }
                 return true;
             }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+
+                view.setVisibility(View.GONE);
+            }
+
+
         });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setAppCacheEnabled(false);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.clearCache(true);
-        webView.loadUrl(getArguments().getString(URL));
+        webView.loadUrl(getArguments().getString(URL_ARG));
         return view;
     }
 

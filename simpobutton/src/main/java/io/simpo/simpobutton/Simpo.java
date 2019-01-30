@@ -18,7 +18,6 @@ import java.util.Objects;
 import io.simpo.simpobutton.fragment.SimpoDialog;
 import io.simpo.simpobutton.model.SimpoOptions;
 import io.simpo.simpobutton.util.SimpoWebViewClient;
-import okhttp3.HttpUrl;
 
 public class Simpo {
     private static final String widgetStagingUrl = "https://staging-app.simpo.io/v1/%s/mobile/widget";
@@ -50,44 +49,37 @@ public class Simpo {
         child.setClickable(false);
         child.setLayoutParams(lp);
         RelativeLayout.LayoutParams layoutParams = getLayoutParamsForButton();
-        HttpUrl url = generateInterfaceURL();
+        String url = generateInterfaceURL();
         webView.setWebViewClient(new SimpoWebViewClient(activity, url));
         child.addView(webView, layoutParams);
         viewGroup.addView(child);
     }
 
     @NonNull
-    private static HttpUrl generateInterfaceURL() {
+    private static String generateInterfaceURL() {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
+        return String.format(interfaceStagingUrl, INSTANCE.ucid, gson.toJson(INSTANCE.simpoOptions));
 
-
-        return new HttpUrl.Builder()
-                .scheme("https")
-                .host("staging-app.simpo.io")
-                .addPathSegments("v1/4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4/mobile")
-                .addPathSegment("app")
-                .addQueryParameter("data", gson.toJson(INSTANCE.simpoOptions))
-                .build();
     }
 
     @NotNull
     private static RelativeLayout.LayoutParams getLayoutParamsForButton() {
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(INSTANCE.simpoOptions.getWidth(), INSTANCE.simpoOptions.getHeight());
         switch (INSTANCE.simpoOptions.getPosition()) {
-            case "top_left":
+            case TOP_LEFT:
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
                 break;
-            case "top_right":
+            case TOP_RIGHT:
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END);
                 break;
-            case "bottom_left":
+            case BOTTOM_LEFT:
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
                 break;
-            case "bottom_right":
+            case BOTTOM_RIGHT:
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END);
                 break;
@@ -97,5 +89,9 @@ public class Simpo {
 
     public static void open(AppCompatActivity activity){
        SimpoDialog.newInstance(generateInterfaceURL()).showNow(Objects.requireNonNull(activity.getSupportFragmentManager()), null);
+    }
+
+    public static void close(){
+
     }
 }
