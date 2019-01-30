@@ -56,8 +56,6 @@ public class SimpoDialog extends DialogFragment {
         webView.getSettings().setAppCacheEnabled(false);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.clearCache(true);
-        webView.setWebViewClient(new WebViewClient() {
-        });
         webView.loadUrl(getArguments().getString("url"));
         return view;
     }

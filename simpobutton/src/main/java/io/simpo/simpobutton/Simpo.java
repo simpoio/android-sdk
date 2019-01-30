@@ -1,8 +1,8 @@
 package io.simpo.simpobutton;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -13,6 +13,9 @@ import com.google.gson.GsonBuilder;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
+import io.simpo.simpobutton.fragment.SimpoDialog;
 import io.simpo.simpobutton.model.SimpoOptions;
 import io.simpo.simpobutton.util.SimpoWebViewClient;
 import okhttp3.HttpUrl;
@@ -22,47 +25,56 @@ public class Simpo {
     private static final String interfaceStagingUrl = "https://staging-app.simpo.io/v1/%s/mobile/app?data=%s";
     private static final String widgetUrl = "https://app.simpo.io/v1/%s/mobile/widget";
     private static final String interfaceUrl = "https://app.simpo.io/v1/%s/mobile/app?data=%s";
-    @SuppressLint("StaticFieldLeak")
-    private static WebView sWebView;
-    private static SimpoOptions sSimpoOptions;
-    private static String ucid;
 
-    public static void init(Context context, String ucid, SimpoOptions options) {
-        Simpo.ucid = ucid;
-        WebView webView = new WebView(context);
-        sSimpoOptions = options;
-        webView.loadUrl(String.format(widgetStagingUrl, ucid));
-        webView.setVisibility(View.VISIBLE);
-        webView.setBackgroundColor(Color.TRANSPARENT);
-        sWebView = webView;
+    private static final Simpo INSTANCE = new Simpo();
+
+    private SimpoOptions simpoOptions;
+    private String ucid;
+
+    private Simpo() {}
+
+    public static void init(String ucid, SimpoOptions options){
+        INSTANCE.simpoOptions = options;
+        INSTANCE.ucid = ucid;
     }
 
-    public static void show(final Context context, ViewGroup viewGroup) {
+    public static void show(final AppCompatActivity activity, ViewGroup viewGroup) {
+
+        WebView webView = new WebView(activity);
+
+        webView.loadUrl(String.format(widgetStagingUrl, INSTANCE.ucid));
+        webView.setVisibility(View.VISIBLE);
+        webView.setBackgroundColor(Color.TRANSPARENT);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        RelativeLayout child = new RelativeLayout(context);
+        RelativeLayout child = new RelativeLayout(activity);
         child.setClickable(false);
         child.setLayoutParams(lp);
         RelativeLayout.LayoutParams layoutParams = getLayoutParamsForButton();
+        HttpUrl url = generateInterfaceURL();
+        webView.setWebViewClient(new SimpoWebViewClient(activity, url));
+        child.addView(webView, layoutParams);
+        viewGroup.addView(child);
+    }
+
+    @NonNull
+    private static HttpUrl generateInterfaceURL() {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
 
 
-        HttpUrl url = new HttpUrl.Builder()
+        return new HttpUrl.Builder()
                 .scheme("https")
                 .host("app.simpo.io")
                 .addPathSegments("v1/4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4/mobile")
                 .addPathSegment("app")
-                .addQueryParameter("data", gson.toJson(sSimpoOptions))
+                .addQueryParameter("data", gson.toJson(INSTANCE.simpoOptions))
                 .build();
-        sWebView.setWebViewClient(new SimpoWebViewClient(context, url));
-        child.addView(sWebView, layoutParams);
-        viewGroup.addView(child);
     }
 
     @NotNull
     private static RelativeLayout.LayoutParams getLayoutParamsForButton() {
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(sSimpoOptions.getWidth(), sSimpoOptions.getHeight());
-        switch (sSimpoOptions.getPosition()) {
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(INSTANCE.simpoOptions.getWidth(), INSTANCE.simpoOptions.getHeight());
+        switch (INSTANCE.simpoOptions.getPosition()) {
             case "top_left":
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
@@ -83,9 +95,7 @@ public class Simpo {
         return layoutParams;
     }
 
-
-    public static void destroy() {
-        sWebView = null;
-        sSimpoOptions = null;
+    public static void open(AppCompatActivity activity){
+       SimpoDialog.newInstance(generateInterfaceURL()).showNow(Objects.requireNonNull(activity.getSupportFragmentManager()), null);
     }
 }

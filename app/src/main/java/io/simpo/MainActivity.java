@@ -15,8 +15,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Simpo.init(this, "4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4",
-                new SimpoOptions(new SimpoUser(), "sdfasdfasdf", true, "bottom_right", 256 , 256));
-        Simpo.show(this, (ViewGroup) ((ViewGroup) (findViewById(android.R.id.content))).getChildAt(0));
+        Simpo.init("4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4",
+                new SimpoOptions(new SimpoUser("", ""), "", true, "bottom_right", 256 , 256));
+        //Simpo.show(this, (ViewGroup) ((ViewGroup) (findViewById(android.R.id.content))).getChildAt(0));
+        Simpo.open(this);
     }
 }
