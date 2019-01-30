@@ -1,17 +1,11 @@
 package io.simpo.simpobutton;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
@@ -19,9 +13,6 @@ import com.google.gson.GsonBuilder;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
-import io.simpo.simpobutton.fragment.SimpoDialog;
 import io.simpo.simpobutton.model.SimpoOptions;
 import io.simpo.simpobutton.util.SimpoWebViewClient;
 import okhttp3.HttpUrl;

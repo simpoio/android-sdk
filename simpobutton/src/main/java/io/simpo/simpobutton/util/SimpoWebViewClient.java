@@ -33,16 +33,6 @@ public class SimpoWebViewClient extends WebViewClient {
         return true;
     }
 
-    @Override
-    public void onLoadResource(WebView view, String url) {
-        if (url.equals("simpo://widget.click")) {
-            new SimpoDialog();
-            SimpoDialog.newInstance(interfaceUrl).showNow(Objects.requireNonNull(getFragmentManager(context)), null);
-        }
-    }
-
-
-
     private static FragmentManager getFragmentManager(Context context) {
         try{
             final FragmentActivity activity = (FragmentActivity) context;
