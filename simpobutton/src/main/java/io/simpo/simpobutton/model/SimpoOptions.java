@@ -1,7 +1,7 @@
 package io.simpo.simpobutton.model;
 
 public class SimpoOptions {
-    private SimpoUser simpoUser;
+    private SimpoUser user;
     private String uuid;
     private boolean show;
     private String position;
@@ -11,8 +11,8 @@ public class SimpoOptions {
     public SimpoOptions() {
     }
 
-    public SimpoOptions(SimpoUser simpoUser, String uuid, boolean show, String position, int width, int height) {
-        this.simpoUser = simpoUser;
+    public SimpoOptions(SimpoUser user, String uuid, boolean show, String position, int width, int height) {
+        this.user = user;
         this.uuid = uuid;
         this.show = show;
         this.position = position;
@@ -24,47 +24,50 @@ public class SimpoOptions {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public int getHeight() {
         return height;
     }
-
-    public void setHeight(int height) {
-        this.height = height;
+    public SimpoUser getUser() {
+        return user;
     }
 
-    public SimpoUser getSimpoUser() {
-        return simpoUser;
-    }
-
-    public void setSimpoUser(SimpoUser simpoUser) {
-        this.simpoUser = simpoUser;
-    }
 
     public String getUuid() {
         return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     public boolean isShow() {
         return show;
     }
 
-    public void setShow(boolean show) {
-        this.show = show;
-    }
-
     public String getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public String encodedOptions() {
+        //let dimensions = String(format: "%.0fx%.0f", self.dimensions.width, self.dimensions.height)
+        /*String data = "";
+        data.
+        var options = ["show": showWidget, "position": position.rawValue, "dimension": dimensions] as [String: Any]
+        var user = [String: Any]()
+
+        if let userEmail = userEmail { user["email"] = userEmail }
+        if let userName = userName { user["name"] = userName }
+        if !user.isEmpty { options["user"] = user }
+
+        if let uuid = uuid { options["uuid"] = uuid }
+
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: options)
+            guard let encodedOptions = String(data: jsonData, encoding: String.Encoding.utf8),
+            let encodedString = encodedOptions.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) else {
+                fatalError("Unable to encode options object")
+            }
+            return encodedString
+        } catch {
+            fatalError("Incorrect options object")
+        }*/
+        return "";
     }
+
 }

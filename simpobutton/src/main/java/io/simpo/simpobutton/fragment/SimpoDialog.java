@@ -12,20 +12,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import io.simpo.simpobutton.R;
+import okhttp3.HttpUrl;
+import okhttp3.internal.http.HttpHeaders;
 
 public class SimpoDialog extends DialogFragment implements View.OnClickListener {
 
-    public static SimpoDialog newInstance(String url) {
+    public static SimpoDialog newInstance(HttpUrl url) {
         SimpoDialog simpoDialog = new SimpoDialog();
 
         Bundle args = new Bundle();
-        args.putString("url", url);
+        args.putString("url", String.valueOf(url));
         simpoDialog.setArguments(args);
 
         return simpoDialog;
@@ -51,11 +59,16 @@ public class SimpoDialog extends DialogFragment implements View.OnClickListener 
         WebView webView = view.findViewById(R.id.dialogWebView);
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.loadUrl("https://staging-app.simpo.io/v1/4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4/mobile/app?data={\"show\":true,\"dimension\":\"55x55\",\"position\":\"bottom-right\",\"user\":{\"email\":\"abc@aa.com\"}}");
-
+       // Map<String, String> extraHeaders = new HashMap<>();
+       // extraHeaders.put("If-None-Match", "");;
+        webView.getSettings().setAppCacheEnabled(false);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.setWebViewClient(new WebViewClient() {});
+        webView.loadUrl(getArguments().getString("url"));
+       // webView.loadUrl("http://google.com");
         return view;
     }
+
 
     @Override
     public void onClick(View v) {

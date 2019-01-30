@@ -11,14 +11,15 @@ import android.webkit.WebViewClient;
 import java.util.Objects;
 
 import io.simpo.simpobutton.fragment.SimpoDialog;
+import okhttp3.HttpUrl;
 
 public class SimpoWebViewClient extends WebViewClient {
 
     private static final String TAG = "Simpo Widget";
     private Context context;
-    private String interfaceUrl;
+    private HttpUrl interfaceUrl;
 
-    public SimpoWebViewClient(Context context, String interfaceUrl) {
+    public SimpoWebViewClient(Context context, HttpUrl interfaceUrl) {
         this.context = context;
         this.interfaceUrl = interfaceUrl;
     }
