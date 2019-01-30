@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -24,17 +23,8 @@ public class SimpoWebViewClient extends WebViewClient {
         this.interfaceUrl = interfaceUrl;
     }
 
-    @Override
-    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        if (url.equals("simpo://widget.click")) {
-            new SimpoDialog();
-            SimpoDialog.newInstance(interfaceUrl).showNow(Objects.requireNonNull(getFragmentManager(context)), null);
-        }
-        return true;
-    }
-
     private static FragmentManager getFragmentManager(Context context) {
-        try{
+        try {
             final FragmentActivity activity = (FragmentActivity) context;
 
             return activity.getSupportFragmentManager();
@@ -43,6 +33,15 @@ public class SimpoWebViewClient extends WebViewClient {
             Log.d(TAG, "Can't get the fragment manager with this");
         }
         return null;
+    }
+
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        if (url.equals("simpo://widget.click")) {
+            new SimpoDialog();
+            SimpoDialog.newInstance(interfaceUrl).showNow(Objects.requireNonNull(getFragmentManager(context)), null);
+        }
+        return true;
     }
 
 }
