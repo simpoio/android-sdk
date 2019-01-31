@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Simpo.init("4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4",
                 new SimpoOptions(new SimpoUser("", ""), "", true, SimpoWidgetPosition.BOTTOM_RIGHT, 180 , 180));
-        Simpo.showWidget(this, findViewById(android.R.id.content));
+        Simpo.addWidget(this);
         Simpo.open(this);
         Simpo.close(this);
     }

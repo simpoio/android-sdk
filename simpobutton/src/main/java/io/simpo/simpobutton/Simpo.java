@@ -38,7 +38,7 @@ final public class Simpo {
         INSTANCE.ucid = ucid;
     }
 
-    public static void showWidget(final AppCompatActivity activity, View viewGroup) {
+    public static void addWidget(final AppCompatActivity activity) {
 
         WebView webView = new WebView(activity);
         webView.loadUrl(String.format(widgetStagingUrl, INSTANCE.ucid));
@@ -68,7 +68,7 @@ final public class Simpo {
         });
         child.addView(webView, layoutParams);
         webView.setId(R.id.widget);
-        ((ViewGroup) ((ViewGroup) viewGroup).getChildAt(0)).addView(child);
+        ((ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0)).addView(child);
     }
 
     @NonNull
@@ -105,7 +105,7 @@ final public class Simpo {
 
     public static void open(FragmentActivity activity){
         SimpoInterface.newInstance(generateInterfaceURL()).showNow(activity.getSupportFragmentManager(), INTERFACE_TAG);
-        if(INSTANCE.simpoOptions.isShow()) {
+        if(INSTANCE.simpoOptions.isHideWidget()) {
             View widget = activity.findViewById(R.id.widget);
             if(widget != null) widget.setVisibility(View.GONE);
         }
@@ -119,7 +119,7 @@ final public class Simpo {
                 simpoInterface.dismiss();
             }
         }
-        if(INSTANCE.simpoOptions.isShow()) {
+        if(INSTANCE.simpoOptions.isHideWidget()) {
             View widget = activity.findViewById(R.id.widget);
             if(widget != null) widget.setVisibility(View.VISIBLE);
         }
