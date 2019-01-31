@@ -1,5 +1,6 @@
 package io.simpo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,15 +16,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Simpo.init("4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4",
-                new SimpoOptions(new SimpoUser("", ""), "", true, SimpoWidgetPosition.BOTTOM_RIGHT, 180 , 180));
         Simpo.addWidget(this);
 
         findViewById(R.id.open_interface).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Simpo.open(MainActivity.this);
+            }
+        });
+        findViewById(R.id.open_new_screen).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, DummyActivity.class));
             }
         });
 

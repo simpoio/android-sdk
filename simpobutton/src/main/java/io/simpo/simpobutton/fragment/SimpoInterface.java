@@ -2,6 +2,7 @@ package io.simpo.simpobutton.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -106,5 +107,11 @@ final public class SimpoInterface extends DialogFragment {
         webView.clearCache(true);
         webView.loadUrl(getArguments().getString(URL_ARG));
         return view;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        Simpo.close(getActivity());
     }
 }
