@@ -25,54 +25,6 @@ final public class SimpoInterface extends DialogFragment {
 
     public static final String URL_ARG = "url";
 
-    private boolean isRedirected;
-    private WebViewClient webViewClient = new WebViewClient() {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url.equals("simpo://interface.close")) {
-                Simpo.close(getActivity());
-            }
-            isRedirected = true;
-            return true;
-        }
-
-        @Override
-        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            super.onReceivedError(view, errorCode, description, failingUrl);
-
-            view.setVisibility(View.GONE);
-        }
-
-        ProgressDialog progressDialog;
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-            isRedirected = false;
-        }
-
-        public void onLoadResource(WebView view, String url) {
-            if (!isRedirected) {
-                if (progressDialog == null && getActivity() != null) {
-                    progressDialog = new ProgressDialog(getActivity());
-                    progressDialog.setMessage("Loading...");
-                    progressDialog.show();
-                }
-            }
-
-        }
-
-        public void onPageFinished(WebView view, String url) {
-                isRedirected = true;
-
-                if (progressDialog != null && progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                    progressDialog = null;
-                }
-
-        }
-
-    };;
 
     public static SimpoInterface newInstance(String url) {
         SimpoInterface simpoInterface = new SimpoInterface();
@@ -99,12 +51,7 @@ final public class SimpoInterface extends DialogFragment {
         WebView webView = view.findViewById(R.id.dialogWebView);
         webView.getSettings().setDomStorageEnabled(true);
         webView.setBackgroundColor(Color.TRANSPARENT);
-        webView.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
-        webView.setWebViewClient(webViewClient);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setAppCacheEnabled(false);
-        webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
-        webView.clearCache(true);
         webView.loadUrl(getArguments().getString(URL_ARG));
         return view;
     }
