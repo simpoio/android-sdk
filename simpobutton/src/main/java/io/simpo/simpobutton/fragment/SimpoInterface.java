@@ -1,7 +1,6 @@
 package io.simpo.simpobutton.fragment;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +18,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import io.simpo.simpobutton.R;
-public class SimpoDialog extends DialogFragment {
+import io.simpo.simpobutton.Simpo;
+
+final public class SimpoInterface extends DialogFragment {
 
     public static final String URL_ARG = "url";
 
@@ -27,7 +29,7 @@ public class SimpoDialog extends DialogFragment {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             if (url.equals("simpo://interface.close")) {
-                dismiss();
+                Simpo.close(getActivity());
             }
             view.loadUrl(url);
             isRedirected = true;
@@ -51,7 +53,7 @@ public class SimpoDialog extends DialogFragment {
 
         public void onLoadResource(WebView view, String url) {
             if (!isRedirected) {
-                if (progressDialog == null) {
+                if (progressDialog == null && getActivity() != null) {
                     progressDialog = new ProgressDialog(getActivity());
                     progressDialog.setMessage("Loading...");
                     progressDialog.show();
@@ -77,21 +79,20 @@ public class SimpoDialog extends DialogFragment {
 
     };;
 
-    public static SimpoDialog newInstance(String url) {
-        SimpoDialog simpoDialog = new SimpoDialog();
+    public static SimpoInterface newInstance(String url) {
+        SimpoInterface simpoInterface = new SimpoInterface();
 
         Bundle args = new Bundle();
         args.putString(URL_ARG, url);
-        simpoDialog.setArguments(args);
+        simpoInterface.setArguments(args);
 
-        return simpoDialog;
+        return simpoInterface;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_FRAME, android.R.style.Theme);
-
+        setStyle(AppCompatDialogFragment.STYLE_NO_FRAME, android.R.style.Theme);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -112,5 +113,4 @@ public class SimpoDialog extends DialogFragment {
         webView.loadUrl(getArguments().getString(URL_ARG));
         return view;
     }
-
 }
