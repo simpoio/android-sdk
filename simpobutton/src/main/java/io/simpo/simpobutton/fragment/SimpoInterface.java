@@ -31,9 +31,8 @@ final public class SimpoInterface extends DialogFragment {
             if (url.equals("simpo://interface.close")) {
                 Simpo.close(getActivity());
             }
-            view.loadUrl(url);
             isRedirected = true;
-            return false;
+            return true;
         }
 
         @Override
@@ -63,18 +62,13 @@ final public class SimpoInterface extends DialogFragment {
         }
 
         public void onPageFinished(WebView view, String url) {
-            try {
                 isRedirected = true;
 
-                if (progressDialog.isShowing()) {
+                if (progressDialog != null && progressDialog.isShowing()) {
                     progressDialog.dismiss();
                     progressDialog = null;
                 }
 
-
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
         }
 
     };;
