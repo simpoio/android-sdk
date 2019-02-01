@@ -3,15 +3,15 @@ package io.simpo.simpobutton.model;
 public class SimpoOptions {
     private SimpoUser user;
     private String uuid;
-    private boolean hideWidget;
+    private boolean showWidget;
     private SimpoWidgetPosition position;
     private int width;
     private int height;
 
-    public SimpoOptions(SimpoUser user, String uuid, boolean hideWidget, SimpoWidgetPosition position, int widgetWidth, int widgetHeight) {
+    public SimpoOptions(SimpoUser user, String uuid, boolean showWidget, SimpoWidgetPosition position, int widgetWidth, int widgetHeight) {
         this.uuid = uuid;
         this.user = user;
-        this.hideWidget = hideWidget;
+        this.showWidget = showWidget;
         this.position = position;
         this.width = widgetWidth;
         this.height = widgetHeight;
@@ -30,8 +30,8 @@ public class SimpoOptions {
     }
 
 
-    public boolean isHideWidget() {
-        return hideWidget;
+    public boolean isShowWidget() {
+        return showWidget;
     }
 
     public SimpoWidgetPosition getPosition() {

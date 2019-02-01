@@ -16,12 +16,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Simpo.addWidget(this);
+        final Simpo simpo =new Simpo("4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4",
+                new SimpoOptions(new SimpoUser("", ""),
+                        "",
+                        true,
+                        SimpoWidgetPosition.BOTTOM_RIGHT,
+                        180 , 180),
+                this);
 
         findViewById(R.id.open_interface).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Simpo.open(MainActivity.this);
+                simpo.open();
             }
         });
         findViewById(R.id.open_new_screen).setOnClickListener(new View.OnClickListener() {
@@ -31,6 +37,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //Simpo.close(this);
+        //simpo.close();
     }
 }

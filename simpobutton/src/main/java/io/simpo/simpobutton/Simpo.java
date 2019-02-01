@@ -25,64 +25,80 @@ final public class Simpo {
     private static final String widgetUrl = "https://app.simpo.io/v1/%s/mobile/widget";
     private static final String interfaceUrl = "https://app.simpo.io/v1/%s/mobile/app?data=%s";
 
-    private static final Simpo INSTANCE = new Simpo();
-    public static final String INTERFACE_TAG = "SimpoInterface";
+    private static final String INTERFACE_TAG = "SimpoInterface";
 
     private SimpoOptions simpoOptions;
     private String ucid;
+    private WebView widgetView;
+    private SimpoInterface simpoInterface;
 
-    private Simpo() {}
-
-    public static void init(String ucid, SimpoOptions options){
-        INSTANCE.simpoOptions = options;
-        INSTANCE.ucid = ucid;
+    public Simpo(String ucid, SimpoOptions simpoOptions,  AppCompatActivity activity) {
+        this.simpoOptions = simpoOptions;
+        this.ucid = ucid;
+        add(activity);
     }
 
-    public static void addWidget(final AppCompatActivity activity) {
 
-        WebView webView = new WebView(activity);
-        webView.loadUrl(String.format(widgetStagingUrl, INSTANCE.ucid));
-        webView.setVisibility(View.VISIBLE);
-        webView.setBackgroundColor(Color.TRANSPARENT);
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        RelativeLayout child = new RelativeLayout(activity);
-        child.setClickable(false);
-        child.setLayoutParams(lp);
-        RelativeLayout.LayoutParams layoutParams = getLayoutParamsForButton();
-        webView.setWebViewClient(new WebViewClient(){
+    public void open(){
+        if(widgetView != null) widgetView.setVisibility(View.GONE);
+        if(simpoInterface != null)  simpoInterface.getDialog().show();
+    }
 
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.equals("simpo://widget.click")) {
-                    open(activity);
+    public void close(){
+        if(widgetView != null) widgetView.setVisibility(View.VISIBLE);
+        if(simpoInterface != null && simpoInterface.getDialog() != null) simpoInterface.getDialog().hide();
+
+    }
+
+    private void add(final AppCompatActivity activity) {
+        if(simpoOptions.isShowWidget()) {
+            widgetView = new WebView(activity);
+            widgetView.loadUrl(String.format(widgetStagingUrl, ucid));
+            widgetView.setVisibility(View.VISIBLE);
+            widgetView.setBackgroundColor(Color.TRANSPARENT);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            RelativeLayout child = new RelativeLayout(activity);
+            child.setClickable(false);
+            child.setLayoutParams(lp);
+            RelativeLayout.LayoutParams layoutParams = getLayoutParamsForButton();
+            widgetView.setWebViewClient(new WebViewClient() {
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    if (url.equals("simpo://widget.click")) {
+                        open();
+                    }
+                    return true;
                 }
-                return true;
-            }
 
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                super.onReceivedError(view, errorCode, description, failingUrl);
-                view.setVisibility(View.GONE);
-            }
+                @Override
+                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                    super.onReceivedError(view, errorCode, description, failingUrl);
+                    view.setVisibility(View.GONE);
+                }
 
-        });
-        child.addView(webView, layoutParams);
-        webView.setId(R.id.widget);
-        ((ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0)).addView(child);
+            });
+            child.addView(widgetView, layoutParams);
+            widgetView.setId(R.id.widget);
+            ((ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0)).addView(child);
+        }
+        simpoInterface = SimpoInterface.newInstance(generateInterfaceURL());
+        simpoInterface.setSimpo(this);
+        simpoInterface.showNow(activity.getSupportFragmentManager(), INTERFACE_TAG);
     }
 
     @NonNull
-    private static String generateInterfaceURL() {
+    private  String generateInterfaceURL() {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        return String.format(interfaceStagingUrl, INSTANCE.ucid, gson.toJson(INSTANCE.simpoOptions));
+        return String.format(interfaceStagingUrl, ucid, gson.toJson(simpoOptions));
 
     }
 
     @NotNull
-    private static RelativeLayout.LayoutParams getLayoutParamsForButton() {
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(INSTANCE.simpoOptions.getWidth(), INSTANCE.simpoOptions.getHeight());
-        switch (INSTANCE.simpoOptions.getPosition()) {
+    private  RelativeLayout.LayoutParams getLayoutParamsForButton() {
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(simpoOptions.getWidth(), simpoOptions.getHeight());
+        switch (simpoOptions.getPosition()) {
             case TOP_LEFT:
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
@@ -101,28 +117,6 @@ final public class Simpo {
                 break;
         }
         return layoutParams;
-    }
-
-    public static void open(FragmentActivity activity){
-        SimpoInterface.newInstance(generateInterfaceURL()).showNow(activity.getSupportFragmentManager(), INTERFACE_TAG);
-        if(INSTANCE.simpoOptions.isHideWidget()) {
-            View widget = activity.findViewById(R.id.widget);
-            if(widget != null) widget.setVisibility(View.GONE);
-        }
-    }
-
-    public static void close(FragmentActivity activity){
-        Fragment fragment = activity.getSupportFragmentManager().findFragmentByTag(INTERFACE_TAG);
-        if(fragment instanceof SimpoInterface) {
-            SimpoInterface simpoInterface = (SimpoInterface)fragment;
-            if(!simpoInterface.isRemoving()) {
-                simpoInterface.dismiss();
-            }
-        }
-        if(INSTANCE.simpoOptions.isHideWidget()) {
-            View widget = activity.findViewById(R.id.widget);
-            if(widget != null) widget.setVisibility(View.VISIBLE);
-        }
     }
 
 }
