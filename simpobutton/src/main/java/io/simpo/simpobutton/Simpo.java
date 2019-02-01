@@ -2,8 +2,6 @@ package io.simpo.simpobutton;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +18,8 @@ import io.simpo.simpobutton.fragment.SimpoInterface;
 import io.simpo.simpobutton.model.SimpoOptions;
 
 final public class Simpo {
-    private static final String widgetStagingUrl = "https://staging-app.simpo.io/v1/%s/mobile/widget";
-    private static final String interfaceStagingUrl = "https://staging-app.simpo.io/v1/%s/mobile/app?data=%s";
-    private static final String widgetUrl = "https://app.simpo.io/v1/%s/mobile/widget";
-    private static final String interfaceUrl = "https://app.simpo.io/v1/%s/mobile/app?data=%s";
+    private static final String widgetUrl = BuildConfig.SERVER_URL +"/v1/%s/mobile/widget";
+    private static final String interfaceUrl = BuildConfig.SERVER_URL +"/v1/%s/mobile/app?data=%s";
 
     private static final String INTERFACE_TAG = "SimpoInterface";
 
@@ -53,7 +49,7 @@ final public class Simpo {
     private void add(final AppCompatActivity activity) {
         if(simpoOptions.isShowWidget()) {
             widgetView = new WebView(activity);
-            widgetView.loadUrl(String.format(widgetStagingUrl, ucid));
+            widgetView.loadUrl(String.format(widgetUrl, ucid));
             widgetView.setVisibility(View.VISIBLE);
             widgetView.setBackgroundColor(Color.TRANSPARENT);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -91,7 +87,7 @@ final public class Simpo {
     private  String generateInterfaceURL() {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
-        return String.format(interfaceStagingUrl, ucid, gson.toJson(simpoOptions));
+        return String.format(interfaceUrl , ucid, gson.toJson(simpoOptions));
 
     }
 

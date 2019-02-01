@@ -18,8 +18,24 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+
+            buildConfigField "String", "SERVER_URL", '"https://app.simpo.io"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            buildConfigField "String", "SERVER_URL", '"https://app.simpo.io"'
+        }
+
+        staging {
+            debuggable true
+            minifyEnabled false
+            buildConfigField "String", "SERVER_URL", '"https://staging-app.simpo"'
+
+        }
+
     }
 
 }
