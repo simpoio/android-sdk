@@ -3,6 +3,7 @@ package io.simpo.simpobutton.fragment;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +35,7 @@ final public class SimpoInterface extends DialogFragment {
     public static final String URL_ARG = "url";
     private Simpo simpo;
     private View view;
+    private static final String TAG = "SimpoInterface";
 
 
     public static SimpoInterface newInstance(String url) {
@@ -54,7 +57,11 @@ final public class SimpoInterface extends DialogFragment {
             }
             simpo.close();
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity( intent );
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                Log.e(TAG , " You don't have any browser to open web page", e);
+            }
             return true;
         }
 
