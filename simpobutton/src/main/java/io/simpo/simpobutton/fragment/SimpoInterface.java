@@ -55,10 +55,10 @@ final public class SimpoInterface extends DialogFragment {
                 simpo.close();
                 return true;
             }
-            simpo.close();
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             try {
                 startActivity(intent);
+                simpo.close();
             } catch (ActivityNotFoundException e) {
                 Log.e(TAG , " You don't have any browser to open web page", e);
             }
