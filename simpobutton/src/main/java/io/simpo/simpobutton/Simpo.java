@@ -43,12 +43,9 @@ final public class Simpo {
 
     }
 
-    public void close(){
-        if(widgetView != null) widgetView.setVisibility(View.VISIBLE);
-        if(simpoInterface != null && simpoInterface.getDialog() != null) {
-            simpoInterface.close();
-        }
-
+    public void close() {
+        if (widgetView != null) widgetView.setVisibility(View.VISIBLE);
+        simpoInterface.close();
     }
 
     private void add(final AppCompatActivity activity) {
