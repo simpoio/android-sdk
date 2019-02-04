@@ -1,4 +1,4 @@
-# Simpo iOS SDK
+# Simpo Android SDK
 
 There are two repositories: 
  - Internal (this one) - contains all source code. 
