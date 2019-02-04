@@ -35,6 +35,7 @@ final public class SimpoInterface extends DialogFragment {
     public static final String URL_ARG = "url";
     private Simpo simpo;
     private View view;
+    private WebView webView;
     private static final String TAG = "SimpoInterface";
 
 
@@ -87,10 +88,11 @@ final public class SimpoInterface extends DialogFragment {
         AlertDialog alertDialog = alertDialogBuilder.create();
 
 
-        WebView webView = view.findViewById(R.id.dialogWebView);
+        webView = view.findViewById(R.id.dialogWebView);
         webView.getSettings().setDomStorageEnabled(true);
         webView.setBackgroundColor(Color.TRANSPARENT);
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebContentsDebuggingEnabled(true);
         webView.setWebViewClient(webViewClient);
         webView.loadUrl(getArguments().getString(URL_ARG));
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -110,6 +112,18 @@ final public class SimpoInterface extends DialogFragment {
             dialog.getWindow().setLayout(width, height);
         }
         getDialog().hide();
+    }
+
+    public void open() {
+        getDialog().show();
+        webView.loadUrl("javascript:window.simpo.open()");
+    }
+
+    public void close() {
+        if(getDialog() != null) {
+            getDialog().hide();
+        }
+        webView.loadUrl("javascript:window.simpo.close()");
     }
 
     @Override
