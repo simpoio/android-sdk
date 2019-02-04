@@ -37,12 +37,17 @@ final public class Simpo {
 
     public void open(){
         if(widgetView != null) widgetView.setVisibility(View.GONE);
-        if(simpoInterface != null)  simpoInterface.getDialog().show();
+        if(simpoInterface != null) {
+            simpoInterface.open();
+        }
+
     }
 
     public void close(){
         if(widgetView != null) widgetView.setVisibility(View.VISIBLE);
-        if(simpoInterface != null && simpoInterface.getDialog() != null) simpoInterface.getDialog().hide();
+        if(simpoInterface != null && simpoInterface.getDialog() != null) {
+            simpoInterface.close();
+        }
 
     }
 
