@@ -123,7 +123,6 @@ final public class SimpoInterface extends DialogFragment {
         if(getDialog() != null) {
             getDialog().hide();
         }
-        webView.loadUrl("javascript:window.simpo.close()");
     }
 
     @Override
