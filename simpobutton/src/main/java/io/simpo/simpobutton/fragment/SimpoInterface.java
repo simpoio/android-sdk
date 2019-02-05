@@ -37,6 +37,7 @@ final public class SimpoInterface extends DialogFragment {
     private View view;
     private WebView webView;
     private static final String TAG = "SimpoInterface";
+    private boolean isFirstStart = true;
 
 
     public static SimpoInterface newInstance(String url) {
@@ -104,14 +105,16 @@ final public class SimpoInterface extends DialogFragment {
     public void onStart()
     {
         super.onStart();
-        Dialog dialog = getDialog();
-        if (dialog != null)
-        {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.MATCH_PARENT;
-            dialog.getWindow().setLayout(width, height);
+        if(isFirstStart) {
+            Dialog dialog = getDialog();
+            if (dialog != null) {
+                int width = ViewGroup.LayoutParams.MATCH_PARENT;
+                int height = ViewGroup.LayoutParams.MATCH_PARENT;
+                dialog.getWindow().setLayout(width, height);
+            }
+            getDialog().hide();
+            isFirstStart = false;
         }
-        getDialog().hide();
     }
 
     public void open() {
@@ -125,10 +128,6 @@ final public class SimpoInterface extends DialogFragment {
         }
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
 
     @Override
     public void onDismiss(DialogInterface dialog) {
