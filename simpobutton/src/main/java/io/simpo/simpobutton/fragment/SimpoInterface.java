@@ -116,7 +116,7 @@ final public class SimpoInterface extends DialogFragment {
 
     public void open() {
         getDialog().show();
-        webView.loadUrl("javascript:window.simpo.open()");
+        webView.loadUrl("javascript:(function(){if(window.simpo && window.simpo.open) {window.simpo.open();} else {counter = 10; var interval = setInterval(function() {if(window.simpo && window.simpo.open) {window.simpo.open();clearInterval(interval)}counter--;if(!counter){clearInterval();}}, 1000)}})();");
     }
 
     public void close() {
