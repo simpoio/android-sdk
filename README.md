@@ -1,17 +1,45 @@
-# Simpo Android SDK
+# Simpo SDK for Android
 
-There are two repositories: 
- - Internal (this one) - contains all source code. 
- - Public - used for user instructions(?).
- 
- The new versions are distributing using the https://jitpack.io/. 
+## Installation
+Installation of the SDK done through JitPack.
+For instructions go to https://jitpack.io/#simpoio/android-sdk And follow the instructions.
 
-## Distribution
+## Documentation
+- #### init(ucid: string, options: SimpoOptions)
+  
+  options(SimpoUser user, String uuid, boolean showWidget, SimpoWidgetPosition position, int widgetWidth, int widgetHeight)
+    - user: <optional>:SimpoUser(String email, String name) 
+    - uuid - unique client id
+    - showWiget: show or hide the widget 
+     - position: can receive one of the below values: 
+      * BOTTOM_LEFT
+      * BOTTOM_RIGHT
+      * TOP_LEFT
+      * TOP_RIGHT
 
+- #### open()
+  must be called after init, will open Simpo interface
 
-- Prepare new Github Release(https://help.github.com/articles/creating-releases/) or push new Tag to repo.
-- Update user instruction if needed 
+### Example of usage
+ ```
+import io.simpo.simpobutton.Simpo;
+import io.simpo.simpobutton.model.SimpoOptions;
+import io.simpo.simpobutton.model.SimpoUser;
+import io.simpo.simpobutton.model.SimpoWidgetPosition;
 
-Check if new version distribute succesfully on jitlab:
-- update build gradle of example project with new version(if needed) 
-- sync gradle
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        final Simpo simpo = new Simpo("exampleUCIDNumber",
+                new SimpoOptions(new SimpoUser("", ""),
+                        "myclientuuid",
+                        true,
+                        SimpoWidgetPosition.BOTTOM_RIGHT,
+                        180 , 180),
+                this);
+
+ ```
