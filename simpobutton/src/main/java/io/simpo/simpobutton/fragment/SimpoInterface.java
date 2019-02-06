@@ -27,6 +27,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
+import io.simpo.simpobutton.BuildConfig;
 import io.simpo.simpobutton.R;
 import io.simpo.simpobutton.Simpo;
 
@@ -67,6 +68,21 @@ final public class SimpoInterface extends DialogFragment {
             return true;
         }
 
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            if(url.contains(BuildConfig.SERVER_URL)){
+                webView.loadUrl("javascript:window.simpo.open()");
+            }
+        }
+
+        @Override
+        public void onPageCommitVisible(WebView view, String url) {
+            super.onPageCommitVisible(view, url);
+            if(url.contains(BuildConfig.SERVER_URL)){
+                webView.loadUrl("javascript:window.simpo.open()");
+            }
+        }
     };
 
 
@@ -99,7 +115,6 @@ final public class SimpoInterface extends DialogFragment {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return alertDialog;
     }
-
 
     @Override
     public void onStart()
@@ -139,4 +154,5 @@ final public class SimpoInterface extends DialogFragment {
     public void setSimpo(Simpo simpo) {
         this.simpo = simpo;
     }
+
 }
