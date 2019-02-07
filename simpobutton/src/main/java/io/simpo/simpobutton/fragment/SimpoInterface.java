@@ -67,22 +67,6 @@ final public class SimpoInterface extends DialogFragment {
             }
             return true;
         }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            super.onPageFinished(view, url);
-            if(url.contains(BuildConfig.SERVER_URL)){
-                webView.loadUrl("javascript:window.simpo.open()");
-            }
-        }
-
-        @Override
-        public void onPageCommitVisible(WebView view, String url) {
-            super.onPageCommitVisible(view, url);
-            if(url.contains(BuildConfig.SERVER_URL)){
-                webView.loadUrl("javascript:window.simpo.open()");
-            }
-        }
     };
 
 

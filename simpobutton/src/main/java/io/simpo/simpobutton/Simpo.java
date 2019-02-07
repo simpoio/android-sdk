@@ -2,7 +2,7 @@ package io.simpo.simpobutton;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -28,7 +28,7 @@ final public class Simpo {
     private WebView widgetView;
     private SimpoInterface simpoInterface;
 
-    public Simpo(String ucid, SimpoOptions simpoOptions,  AppCompatActivity activity) {
+    public Simpo(String ucid, SimpoOptions simpoOptions,  FragmentActivity activity) {
         this.simpoOptions = simpoOptions;
         this.ucid = ucid;
         add(activity);
@@ -48,7 +48,7 @@ final public class Simpo {
         simpoInterface.close();
     }
 
-    private void add(final AppCompatActivity activity) {
+    private void add(final FragmentActivity activity) {
         if(simpoOptions.isShowWidget()) {
             widgetView = new WebView(activity);
             widgetView.loadUrl(String.format(widgetUrl, ucid));
