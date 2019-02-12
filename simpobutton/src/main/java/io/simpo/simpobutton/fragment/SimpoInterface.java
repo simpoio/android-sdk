@@ -39,6 +39,7 @@ final public class SimpoInterface extends DialogFragment {
     private WebView webView;
     private static final String TAG = "SimpoInterface";
     private boolean isFirstStart = true;
+    private boolean isShowed;
 
 
     public static SimpoInterface newInstance(String url) {
@@ -114,19 +115,23 @@ final public class SimpoInterface extends DialogFragment {
             getDialog().hide();
             isFirstStart = false;
         }
+        if(!isShowed){
+            getDialog().hide();
+        }
     }
 
     public void open() {
         getDialog().show();
         webView.loadUrl("javascript:(function(){if(window.simpo && window.simpo.open) {window.simpo.open();} else {counter = 10; var interval = setInterval(function() {if(window.simpo && window.simpo.open) {window.simpo.open();clearInterval(interval)}counter--;if(!counter){clearInterval();}}, 1000)}})();");
+        isShowed = true;
     }
 
     public void close() {
         if(getDialog() != null) {
             getDialog().hide();
         }
+        isShowed = false;
     }
-
 
     @Override
     public void onDismiss(DialogInterface dialog) {
