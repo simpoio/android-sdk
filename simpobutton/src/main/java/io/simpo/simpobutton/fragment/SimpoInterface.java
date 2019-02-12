@@ -70,13 +70,6 @@ final public class SimpoInterface extends DialogFragment {
         }
     };
 
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(AppCompatDialogFragment.STYLE_NO_FRAME, android.R.style.Theme);
-    }
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());

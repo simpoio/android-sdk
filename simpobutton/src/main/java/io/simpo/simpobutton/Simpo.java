@@ -18,8 +18,9 @@ import io.simpo.simpobutton.fragment.SimpoInterface;
 import io.simpo.simpobutton.model.SimpoOptions;
 
 final public class Simpo {
-    private static final String widgetUrl = BuildConfig.SERVER_URL +"/v1/%s/mobile/widget";
-    private static final String interfaceUrl = BuildConfig.SERVER_URL +"/v1/%s/mobile/app?data=%s";
+    private static final String sdkVersion = "v1.3.0";
+    private static final String widgetUrl = BuildConfig.SERVER_URL +"/v1/%s/mobile/widget?mobileVersion=" + sdkVersion;
+    private static final String interfaceUrl = BuildConfig.SERVER_URL +"/v1/%s/mobile/app?mobileVersion=" + sdkVersion + "&data=%s";
 
     private static final String INTERFACE_TAG = "SimpoInterface";
 
