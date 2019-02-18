@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Simpo simpo =new Simpo("4cgtr29zxft8kwuwwtcwdym6ulp21fsiehbkjzncmu4",
+        final Simpo simpo =new Simpo("269a08e2bc49da75e932e946ae5450a6a4260effc8",
                 new SimpoOptions(new SimpoUser("", ""),
                         "",
                         true,
