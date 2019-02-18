@@ -133,6 +133,13 @@ final public class SimpoInterface extends DialogFragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(simpo != null) {
+            simpo.close();
+        }
+    }
     public void setSimpo(Simpo simpo) {
         this.simpo = simpo;
     }
