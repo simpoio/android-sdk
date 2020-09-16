@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                         "myclientuuid",
                         true,
                         SimpoWidgetPosition.BOTTOM_RIGHT,
-                        180 , 180),
+                        60 , 60),
                 this);
 
  ```

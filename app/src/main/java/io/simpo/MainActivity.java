@@ -1,14 +1,17 @@
 package io.simpo;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import io.simpo.simpobutton.Simpo;
+import androidx.appcompat.app.AppCompatActivity;
+
+import io.simpo.simpobutton.model.SimpoInstance;
 import io.simpo.simpobutton.model.SimpoOptions;
+import io.simpo.simpobutton.model.SimpoPlatform;
 import io.simpo.simpobutton.model.SimpoUser;
-import io.simpo.simpobutton.model.SimpoWidgetPosition;
+import io.simpo.simpobutton.model.UtilsGeneral;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,18 +19,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Simpo simpo =new Simpo("269a08e2bc49da75e932e946ae5450a6a4260effc8",
+
+        SimpoPlatform.init("edc559b217e0d70ee45ee31efac344d9a5ead012bb",
                 new SimpoOptions(new SimpoUser("", ""),
                         "",
                         true,
-                        SimpoWidgetPosition.BOTTOM_RIGHT,
-                        180 , 180),
+                        UtilsGeneral.SimpoWidgetPosition.BOTTOM_RIGHT,
+                        60 , 60),
                 this);
 
         findViewById(R.id.open_interface).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                simpo.open();
+                SimpoInstance.open();
             }
         });
         findViewById(R.id.open_new_screen).setOnClickListener(new View.OnClickListener() {
@@ -37,6 +41,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //simpo.close();
     }
 }

@@ -4,11 +4,11 @@ public class SimpoOptions {
     private SimpoUser user;
     private String uuid;
     private boolean showWidget;
-    private SimpoWidgetPosition position;
+    private UtilsGeneral.SimpoWidgetPosition position;
     private int width;
     private int height;
 
-    public SimpoOptions(SimpoUser user, String uuid, boolean showWidget, SimpoWidgetPosition position, int widgetWidth, int widgetHeight) {
+    public SimpoOptions(SimpoUser user, String uuid, boolean showWidget, UtilsGeneral.SimpoWidgetPosition position, int widgetWidth, int widgetHeight) {
         this.uuid = uuid;
         this.user = user;
         this.showWidget = showWidget;
@@ -34,7 +34,7 @@ public class SimpoOptions {
         return showWidget;
     }
 
-    public SimpoWidgetPosition getPosition() {
+    public UtilsGeneral.SimpoWidgetPosition getPosition() {
         return position;
     }
 }
