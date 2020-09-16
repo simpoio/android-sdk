@@ -22,10 +22,11 @@ For instructions go to https://jitpack.io/#simpoio/android-sdk And follow the in
 
 ### Example of usage
  ```
-import io.simpo.simpobutton.Simpo;
+import io.simpo.simpobutton.model.SimpoInstance;
 import io.simpo.simpobutton.model.SimpoOptions;
+import io.simpo.simpobutton.model.SimpoPlatform;
 import io.simpo.simpobutton.model.SimpoUser;
-import io.simpo.simpobutton.model.SimpoWidgetPosition;
+import io.simpo.simpobutton.model.UtilsGeneral;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,12 +35,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        final Simpo simpo = new Simpo("exampleUCIDNumber",
+        SimpoPlatform.init("exampleUCIDNumber",
                 new SimpoOptions(new SimpoUser("", ""),
                         "myclientuuid",
                         true,
-                        SimpoWidgetPosition.BOTTOM_RIGHT,
+                        UtilsGeneral.SimpoWidgetPosition.BOTTOM_RIGHT,
                         60 , 60),
                 this);
+
 
  ```
