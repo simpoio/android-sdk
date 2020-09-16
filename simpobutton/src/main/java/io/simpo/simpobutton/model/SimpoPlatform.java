@@ -35,13 +35,13 @@ public class SimpoPlatform implements ISSimpo {
         if(result != null) {
             String json = result.toString();
             ReportsHelper.LogError(json, "SimpoPlatform=>UpdateParams(" + jsonParams + "); script:" + script + "\"");
-            UtilsGeneral.SimpoLog(SIMPOPLATFORM_TAG, "Simpo SDK: OnReceiveValue:" + json);
+            SimpoGeneral.SimpoLog(SIMPOPLATFORM_TAG, "Simpo SDK: OnReceiveValue:" + json);
         }
     }
 
     public static void init(String ucid, SimpoOptions simpoOptions, FragmentActivity activity) {
         if(SimpoInstance.instance != null) {
-            UtilsGeneral.SimpoLog(SIMPOPLATFORM_TAG, "Simpo SDK: Simpo.Instance object has been already initialized");
+            SimpoGeneral.SimpoLog(SIMPOPLATFORM_TAG, "Simpo SDK: Simpo.Instance object has been already initialized");
             return;
         }
 
@@ -87,7 +87,7 @@ public class SimpoPlatform implements ISSimpo {
         jsonParams = params;
         script = strScript;
 
-        UtilsGeneral.SimpoLog(SIMPOPLATFORM_TAG, "Simpo SDK:" + strScript);
+        SimpoGeneral.SimpoLog(SIMPOPLATFORM_TAG, "Simpo SDK:" + strScript);
 
     }
 

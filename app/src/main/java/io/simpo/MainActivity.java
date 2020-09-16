@@ -10,7 +10,7 @@ import io.simpo.simpobutton.model.SimpoInstance;
 import io.simpo.simpobutton.model.SimpoOptions;
 import io.simpo.simpobutton.model.SimpoPlatform;
 import io.simpo.simpobutton.model.SimpoUser;
-import io.simpo.simpobutton.model.UtilsGeneral;
+import io.simpo.simpobutton.model.SimpoGeneral;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
                 new SimpoOptions(new SimpoUser("", ""),
                         "",
                         true,
-                        UtilsGeneral.SimpoWidgetPosition.BOTTOM_RIGHT,
+                        SimpoGeneral.SimpoWidgetPosition.BOTTOM_RIGHT,
                         60 , 60),
                 this);
 

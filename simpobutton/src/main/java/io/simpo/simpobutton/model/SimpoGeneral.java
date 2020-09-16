@@ -4,7 +4,7 @@ import android.util.Log;
 
 import io.simpo.simpobutton.BuildConfig;
 
-public class UtilsGeneral {
+public class SimpoGeneral {
 
     public static void SimpoLog(String tag, String text) {
         if(SimpoConfig.IS_PROD) {

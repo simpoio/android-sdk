@@ -11,7 +11,7 @@ import io.simpo.simpobutton.model.Closure;
 import io.simpo.simpobutton.model.SimpoConfig;
 import io.simpo.simpobutton.model.SimpoInstance;
 import io.simpo.simpobutton.model.SimpoPlatform;
-import io.simpo.simpobutton.model.UtilsGeneral;
+import io.simpo.simpobutton.model.SimpoGeneral;
 
 public class WebViewClientForInterfaceClose extends WebViewClient {
 
@@ -25,25 +25,25 @@ public class WebViewClientForInterfaceClose extends WebViewClient {
         super.shouldOverrideUrlLoading(view, url);
 
         if(url.equalsIgnoreCase(SimpoConfig.LINK_INTERFACE_CLOSE_CLICK)) {
-            UtilsGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_INTERFACE_CLOSE_CLICK);
+            SimpoGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_INTERFACE_CLOSE_CLICK);
             simpoPlatform.close();
             return true;
         } else if(url.equalsIgnoreCase(SimpoConfig.LINK_ANNOUNCEMENT_OPENED)) {
-            UtilsGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_ANNOUNCEMENT_OPENED);
+            SimpoGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_ANNOUNCEMENT_OPENED);
             simpoPlatform.openWithOutCallSimpoOpen();
             return true;
         } else if(url.equalsIgnoreCase(SimpoConfig.LINK_NPS_OPENED)) {
-            UtilsGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_NPS_OPENED);
+            SimpoGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_NPS_OPENED);
             simpoPlatform.openWithOutCallSimpoOpen();
             return true;
         } else if(url.equalsIgnoreCase(SimpoConfig.LINK_SURVEY_OPENED)) {
-            UtilsGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_SURVEY_OPENED);
+            SimpoGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_SURVEY_OPENED);
             simpoPlatform.openWithOutCallSimpoOpen();
             return true;
         } else if(url.equalsIgnoreCase(SimpoConfig.LINK_GET_CURRENT_PAGE)) {
             if(simpoInterface.getActivity() == null) return true;
             String jsCode = "simpo.native.setCurrentPage('" + simpoInterface.getActivity().getTitle() + "');";
-            UtilsGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_GET_CURRENT_PAGE);
+            SimpoGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_GET_CURRENT_PAGE);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 simpoInterface.webView.evaluateJavascript(jsCode, null);
@@ -53,7 +53,7 @@ public class WebViewClientForInterfaceClose extends WebViewClient {
 
             return true;
         } else if(url.equalsIgnoreCase(SimpoConfig.LINK_READY)) {
-            UtilsGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_READY);
+            SimpoGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_READY);
             simpoPlatform.setInitialized(true);
             if(SimpoInstance.onReady != null && SimpoInstance.onReady.size() > 0) {
                 for(int i = 0; i < SimpoInstance.onReady.size(); i ++) {
@@ -61,7 +61,7 @@ public class WebViewClientForInterfaceClose extends WebViewClient {
                     closure.exec();
                 }
                 SimpoInstance.onReady.clear();
-                UtilsGeneral.SimpoLog(TAG, "Simpo SDK: call SimpoInstance.OnReady");
+                SimpoGeneral.SimpoLog(TAG, "Simpo SDK: call SimpoInstance.OnReady");
             }
             return true;
         }
@@ -72,7 +72,7 @@ public class WebViewClientForInterfaceClose extends WebViewClient {
             simpoPlatform.close();
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
-            UtilsGeneral.SimpoLog(TAG, "You don't have any browser to open web page.");
+            SimpoGeneral.SimpoLog(TAG, "You don't have any browser to open web page.");
         }
 
         return true;

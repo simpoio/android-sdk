@@ -8,7 +8,7 @@ import android.webkit.WebViewClient;
 
 import io.simpo.simpobutton.model.SimpoConfig;
 import io.simpo.simpobutton.model.SimpoPlatform;
-import io.simpo.simpobutton.model.UtilsGeneral;
+import io.simpo.simpobutton.model.SimpoGeneral;
 
 public class WebViewClientForWidgetClick extends WebViewClient {
 
@@ -25,7 +25,7 @@ public class WebViewClientForWidgetClick extends WebViewClient {
         super.shouldOverrideUrlLoading(view, url);
 
         if(url.equalsIgnoreCase(SimpoConfig.LINK_WIDGET_TAP)) {
-            UtilsGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_WIDGET_TAP);
+            SimpoGeneral.SimpoLog(TAG, "Simpo SDK: received simpo message: " + SimpoConfig.LINK_WIDGET_TAP);
             simpoPlatform.open();
         }
 
