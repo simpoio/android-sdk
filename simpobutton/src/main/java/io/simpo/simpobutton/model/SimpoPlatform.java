@@ -3,6 +3,7 @@ package io.simpo.simpobutton.model;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -48,10 +49,15 @@ public class SimpoPlatform implements ISSimpo {
         SimpoInstance.instance = new SimpoPlatform(ucid, simpoOptions, activity);
     }
 
-    private SimpoPlatform(String ucid, SimpoOptions simpoOptions, FragmentActivity activity) {
+    private SimpoPlatform(String ucid, SimpoOptions simpoOptions, final FragmentActivity activity) {
         this.simpoOptions = simpoOptions;
         this.ucid = ucid;
-        add(activity);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                add(activity);
+            }
+        });
     }
 
     @Override
@@ -83,7 +89,18 @@ public class SimpoPlatform implements ISSimpo {
     @Override
     public void updateParams(final String params) {
         final String strScript = SimpoConfig.GetUpdateParamsScript(params);
-        simpoInterface.webView.loadUrl("javascript:" + strScript);
+
+        if(simpoInterface.webView == null || !SimpoInstance.getIsInitialized()) {
+            SimpoInstance.onReady.add(new Closure() {
+                @Override
+                public void exec() {
+                    SimpoInstance.updateParams(params);
+                }
+            });
+        } else {
+            simpoInterface.webView.loadUrl("javascript:" + strScript);
+        }
+
         jsonParams = params;
         script = strScript;
 
@@ -91,7 +108,7 @@ public class SimpoPlatform implements ISSimpo {
 
     }
 
-    private void add(FragmentActivity activity) {
+    private void add(final FragmentActivity activity) {
         if(simpoOptions.isShowWidget()) {
             widgetView = new WebView(activity);
             widgetView.loadUrl(SimpoConfig.getWidgetUrl(ucid));
@@ -114,7 +131,14 @@ public class SimpoPlatform implements ISSimpo {
 
         simpoInterface = SimpoInterface.newInstance(interfaceUrl);
         simpoInterface.setSimpo(this);
-        simpoInterface.showNow(activity.getSupportFragmentManager(), SIMPOPLATFORM_TAG);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                simpoInterface.showNow(activity.getSupportFragmentManager(), SIMPOPLATFORM_TAG);
+            }
+        }, 500);
+
     }
 
     @Override
